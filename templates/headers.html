@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mTLS</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        width: 50%;
+        border: 1px solid black;
+      }
+      td {
+        border: 1px solid black;
+        word-wrap: break-word;
+      }
+      th {
+        border: 1px solid black;
+        text-align: left;
+        word-wrap: break-word;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+      }
+    </style>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th>Header:</th>
+            <th>Value:</th>
+        </tr>
+        {% for header_name in headers.keys() %}
+        <tr>
+            <th>{{ header_name }}</th>
+            <th>{{ headers[header_name] }}</th>
+        </tr>
+        {% endfor %}
+        <tr>
+          <th>Certificate</th>
+          <th>
+            {%  for field in cert_fields.keys() %}
+              <li>  {{ field }} {{ cert_fields[field] }} </li>
+            {% endfor %}
+          </th>
+        </tr>
+        <tr>
+          <th>Pem Data</th>
+          <th>
+            {{ pem_data }}
+          </th>
+        </tr>
+    </table>
+
+</body>
+</html>

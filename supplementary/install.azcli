@@ -1,0 +1,3 @@
+az webapp up --sku P1V3 --name mTLS-flask --location eastus --resource-group mTLS 
+az webapp update --set clientCertEnabled=true --name mTLS-flask --resource-group mTLS 
+az webapp log tail --name mTLS-flask 
