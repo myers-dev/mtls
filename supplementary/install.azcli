@@ -1,3 +1,33 @@
-az webapp up --sku P1V3 --name mTLS-flask --location eastus --resource-group mTLS 
-az webapp update --set clientCertEnabled=true --name mTLS-flask --resource-group mTLS 
+export RG='mTLS'
+
+az group create --location eastus \
+                --name ${RG}
+
+az network vnet create -g ${RG} \
+					   -n mTLS \
+					   --address-prefix 10.0.0.0/16 \
+					   --subnet-name appgw-subnet \
+					   --subnet-prefix 10.0.0.0/24 
+
+az network vnet subnet create   -g ${RG} \
+                                --vnet-name mTLS \
+                                --name pe-subnet \
+					            --address-prefix 10.0.1.0/24
+ 
+
+az network application-gateway create --name mTLS-appgw \
+                                      --resource-group ${RG} \
+                                      --capacity 2 \
+									  --sku Standard_Medium  \
+									  --vnet-name mTLS \
+									  --subnet appgw-subnet \
+                                      --public-ip-address appgwPublicIp
+                                     
+
+
+
+
+
+az webapp up --sku P1V3 --name mTLS-flask --location eastus --resource-group ${RG} 
+az webapp update --set clientCertEnabled=true --name mTLS-flask --resource-group ${RG} 
 az webapp log tail --name mTLS-flask 

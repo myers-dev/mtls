@@ -30,3 +30,7 @@ def mTLS():
                 pass
 
     return render_template('headers.html', headers=request.headers, pem_data = pem_data , cert_fields = cert_fields )
+
+@app.route("/healthz")
+def healthz():
+    return render_template('healthz.html');
