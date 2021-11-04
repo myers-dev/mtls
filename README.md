@@ -53,6 +53,9 @@ az webapp log tail --name mTLS-flask
  By navigating to the webapp page you will be asked to provide the certificate.
 
 ![Select a certificate](https://github.com/myers-dev/mtls/blob/main/supplementary/Certificate_for_authentication.png?raw=true)
+
 And application will dump all headers and certificate content ( base64-encoded )
-<img src="https://github.com/myers-dev/mtls/blob/main/supplementary/headers.png?raw=true" width="100%"/>
+
+<img src="https://github.com/myers-dev/mtls/blob/main/supplementary/mTLS-out.png?raw=true" width="100%"/>
+
 Note, if "Required" option is selected and you decline to provide the certificate , you will get "Error 403 - Forbidden: Client Certificate Required."
