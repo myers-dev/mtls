@@ -1,6 +1,6 @@
 # TLS mutual authentication with Flask
 
-Configuration of mTLS support in Azure App Services described in article [Configure TLS mutual authentication - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth). Article provide a code examples for ASP.NET 5+, ASP.NET Core 3.1, ASP.NET WebForms , Node JS and Java. 
+Configuration of mTLS support in Azure App Services described in document [Configure TLS mutual authentication - Azure App Service | Microsoft Docs](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth). It provide a code examples for ASP.NET 5+, ASP.NET Core 3.1, ASP.NET WebForms , Node JS and Java. 
 The purpose of this tutorial is to provide an example of using Python Flask with cryptography package on Azure App Services for mTLS authentication.
 
 ## Overview
