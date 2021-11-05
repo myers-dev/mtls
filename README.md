@@ -10,14 +10,14 @@ I'll provide code example and App Service deployment configuration for mTLS supp
 
 In the TLS1.2 Handshake, the mTLS request occurs at steps 4 ( Client Certificate Request ) and 5 ( Client Certificate )
 
-![TLS1.2 Handshake Diagramm](https://raw.githubusercontent.com/myers-dev/mtls/35ae7088e50af473905f001d4ede84c7e34cb2ba/supplementary/mTLSDiagram.png)
+![TLS1.2 Handshake Diagramm](supplementary/mTLSDiagram.png)
 
 At the time of writing this article, mTLS was [supported](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth#prepare-your-web-app) by Azure App Services' Basic, Standard, Premium, and Isolated tiers.
 In App Service, TLS termination of the request happens at the frontend load balancer. When forwarding the request to the app code with [client certificates enabled](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-configure-tls-mutual-auth#enable-client-certificates), App Service injects an `X-ARR-ClientCert` request header with the client certificate. App Service does not do anything with this client certificate other than forwarding it to the app. Note, the code provided do not perform actual certificate validation. Validation might be provided in upcoming releases though. 
 
 Incoming certificates can be enabled via Configuration->General settings -> Incoming Client Certificates
 
-![Incoming client certificates](https://github.com/myers-dev/mtls/blob/main/supplementary/Incoming_client_certificates.png?raw=true)
+![Incoming client certificates](supplementary/Incoming_client_certificates.png)
 
 ## Scenario
 
@@ -52,10 +52,15 @@ az webapp log tail --name mTLS-flask
 
  By navigating to the webapp page you will be asked to provide the certificate.
 
-![Select a certificate](https://github.com/myers-dev/mtls/blob/main/supplementary/Certificate_for_authentication.png?raw=true)
+![Select a certificate](supplementary/Certificate_for_authentication.png)
 
 And application will dump all headers and certificate content ( base64-encoded )
 
-<img src="https://github.com/myers-dev/mtls/blob/main/supplementary/mTLS-out.png?raw=true" width="100%"/>
+<img src="supplementary/mTLS-out.png?raw=true" width="100%"/>
 
 Note, if "Required" option is selected and you decline to provide the certificate , you will get "Error 403 - Forbidden: Client Certificate Required."
+
+![403 error](supplementary/403.png)
+
+In scenarios where AppService is front-ended by AppGateway, mTLS is not supported. This occurs because AppGateway terminates SSL. As a result, a new SSL session will be established to the backend, breaking any SSL authentication. Regardless of whether the non-mTLS health checks can be resolved through AppGateway (see /healthz in the code ), the "certificate request" message from AppService will not be translated into the Client->AppGateway leg. 
+
